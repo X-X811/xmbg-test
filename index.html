@@ -448,9 +448,15 @@ function start(){
   }
   var hist = loadHistoryArr();
   if (hist.length) {
-    var dd = new Date(hist[0].t);
-    var ts = (dd.getMonth()+1) + '月' + dd.getDate() + '日 ' + ('0'+dd.getHours()).slice(-2) + ':' + ('0'+dd.getMinutes()).slice(-2);
-    resume += '<button class="btn" style="border-color:#B5651D;color:#B5651D" onclick="showHistoryEntry(0)">上次的结果：' + hist[0].name + ' · ' + ts + ' → 查看</button>';
+    hist.slice(0, 3).forEach(function(e, i){
+      var dd = new Date(e.t);
+      var ts = (dd.getMonth()+1) + '月' + dd.getDate() + '日 ' + ('0'+dd.getHours()).slice(-2) + ':' + ('0'+dd.getMinutes()).slice(-2);
+      var pre = (i === 0) ? '上次的结果：' : '更早：';
+      resume += '<button class="btn" style="border-color:#B5651D;color:#B5651D" onclick="showHistoryEntry(' + i + ')">' + pre + e.name + ' · ' + ts + ' → 查看</button>';
+    });
+    if (hist.length > 3) {
+      resume += '<button class="btn" onclick="showHistoryList()">查看全部历史（共 ' + hist.length + ' 次）</button>';
+    }
   }
   app.innerHTML = '<div class="eyebrow">ATLAS · 古人群像</div><h1>你像哪位古人</h1>'
    + '<div class="lead">两种玩法，任选一种</div>'
@@ -613,7 +619,7 @@ function saveHistory(){
     };
     var arr = loadHistoryArr();
     arr.unshift(entry);
-    if (arr.length > 5) arr = arr.slice(0, 5);
+    if (arr.length > 10) arr = arr.slice(0, 10);
     localStorage.setItem(HIST_KEY, JSON.stringify(arr));
   } catch (e) {}
 }
