@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8">
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e499ec8859eb5c74bea6c6793400be40";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>你像哪位古人 · ATLAS</title>
 <style>
@@ -49,6 +58,33 @@ h1{font-family:"STKaiti","KaiTi",serif;font-size:38px;font-weight:400;text-align
 .charhero-txt .eyebrow{color:#E9D9C4;letter-spacing:.18em}
 .charhero-txt .big{color:#FBF7F0;text-shadow:0 2px 16px rgba(0,0,0,.5);margin:2px 0 4px}
 .charhero-txt .meta{color:#E3D3BF}
+</style>
+<style>
+.row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px dashed #EAE0D3;font-size:15px;color:#3A2E2A}
+.row:last-child{border-bottom:none}
+.row b{color:#B5651D;font-weight:600;font-size:13px}
+.qn{display:flex;justify-content:space-between;align-items:center;margin:8px 0 6px}
+.qnbtn{padding:8px 14px;border:1px solid #E3DACD;border-radius:10px;background:#FFFDF9;color:#5A4A40;font-size:13px;cursor:pointer}
+.qntip{font-size:13px;color:#8A7B70}
+.qgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:8px 0 14px}
+.qcell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1px solid #E3DACD;border-radius:8px;font-size:12px;color:#A8988A;background:#FFFDF9;cursor:pointer;user-select:none}
+.qcell.done{background:#E9D9C4;color:#5A4A40;border-color:#D5C3A6}
+.qcell.cur{border-color:#B5651D;color:#B5651D;font-weight:700;box-shadow:0 0 0 2px rgba(181,101,29,.15)}
+.nav button.nx{background:#B5651D;color:#fff;border-color:#B5651D}
+.autowrap{display:block;margin-top:12px;font-size:12px;color:#8A7B70;cursor:pointer}
+.autowrap input{vertical-align:middle;margin-right:6px}
+.hl{font-weight:700;color:#8A5A2A;font-size:17px;line-height:1.8}
+.pull{display:flex;align-items:center;gap:10px;margin:12px 0 14px;flex-wrap:wrap}
+.tag{flex:1;min-width:120px;text-align:center;padding:12px 10px;border-radius:12px;font-size:14px;font-weight:600}
+.tag.hi{background:#FFF3E4;color:#A8442E;border:1px solid #E9C9A0}
+.tag.lo{background:#F3F0EA;color:#6B6157;border:1px solid #DDD6CB}
+.vs{font-size:18px;color:#A8988A;font-weight:700}
+details.fold{margin:14px 0;border:1px solid #EAE0D3;border-radius:12px;background:#FFFDF9}
+details.fold summary{padding:12px 14px;font-size:14px;color:#5A4A40;cursor:pointer;list-style:none}
+details.fold summary::-webkit-details-marker{display:none}
+details.fold summary::before{content:"▸ ";color:#B5651D}
+details.fold[open] summary::before{content:"▾ "}
+.foldbody{padding:0 14px 14px;font-size:14px;color:#5A4A40;line-height:1.85}
 </style></head>
 <body><div class="wrap" id="app"></div>
 <script>
@@ -363,19 +399,20 @@ const PULL_LO = {
  '持久力': '你起得快续不上，长跑是你的坎'
 };
 
-function pickPaper(){
+function pickPaper(perDim){
+  perDim = perDim || 8;
   const out = [];
   DIMS.forEach(function(d){
     const pool = Q.filter(function(q){ return q.dim === d; });
     for (let k = pool.length - 1; k > 0; k--) { const j = Math.floor(Math.random()*(k+1)); const t=pool[k];pool[k]=pool[j];pool[j]=t; }
-    out.push.apply(out, pool.slice(0, 8));
+    out.push.apply(out, pool.slice(0, perDim));
   });
   for (let k = out.length - 1; k > 0; k--) { const j = Math.floor(Math.random()*(k+1)); const t=out[k];out[k]=out[j];out[j]=t; }
   return out;
 }
-function nearest(sc){
+function nearest(sc, perDim){
   // 按满分归一到 4-22 尺度（与人物向量同尺度），不中心化
-  const perDim = PAPER.length / 8;
+  perDim = perDim || (PAPER.length / 8);
   const maxScore = perDim * 3;
   const u = DIMS.map(function(d){ return 4 + sc[d] / maxScore * 18; });
   let best=null, bd=1e9, second=null, sd=1e9;
@@ -404,35 +441,79 @@ function setG(g){
   });
 }
 function start(){
+  var d = loadDraft();
+  var resume = '';
+  if (d && d.p && d.i < d.p.length) {
+    resume = '<button class="btn" style="border-color:#A8442E;color:#A8442E" onclick="resumeDraft()">继续上次答题（第 ' + (d.i + 1) + ' / ' + d.p.length + ' 题）</button>';
+  }
+  var hist = loadHistoryArr();
+  if (hist.length) {
+    var dd = new Date(hist[0].t);
+    var ts = (dd.getMonth()+1) + '月' + dd.getDate() + '日 ' + ('0'+dd.getHours()).slice(-2) + ':' + ('0'+dd.getMinutes()).slice(-2);
+    resume += '<button class="btn" style="border-color:#B5651D;color:#B5651D" onclick="showHistoryEntry(0)">上次的结果：' + hist[0].name + ' · ' + ts + ' → 查看</button>';
+  }
   app.innerHTML = '<div class="eyebrow">ATLAS · 古人群像</div><h1>你像哪位古人</h1>'
-   + '<div class="lead">六十四道情境选择 · 约十二分钟<br>系统会从历代人物中，找出与你最像的那一位</div>'
+   + '<div class="lead">两种玩法，任选一种</div>'
    + '<div class="card">'
    + '<div class="step">人物方向（偏多，不排除另一方）</div>'
    + '<button class="btn" id="g-f" onclick="setG(\'女\')">女性人物为主</button>'
    + '<button class="btn" id="g-m" onclick="setG(\'男\')">男性人物为主</button>'
    + '<button class="btn sel" id="g-a" onclick="setG(\'all\')">不限</button>'
    + '</div>'
-   + '<button class="btn" style="background:#B5651D;color:#fff;border-color:#B5651D;text-align:center" onclick="begin(GENDER)">开始测试</button>'
-   + '<div class="foot">男女皆有 · 多维分析 · 约十二分钟<br>只做性格类比，不做命运判断 · AI 整理</div>';
+   + resume
+   + '<button class="btn" style="background:#B5651D;color:#fff;border-color:#B5651D;text-align:center" onclick="begin(GENDER,\'quick\')">快速版 · 16 题（约 3 分钟）</button>'
+   + '<button class="btn" style="border-color:#3A2E2A;text-align:center" onclick="gate()">深度版 · 64 题（约 12 分钟 · 需解锁）</button>'
+   + '<div class="foot">快速版免费 · 深度版完整档案<br>只做性格类比，不做命运判断 · AI 整理</div>';
 }
-function begin(g){ GENDER = g || 'all'; T0 = Date.now(); PAPER = pickPaper(); A = new Array(PAPER.length).fill(null); render(); }
+function begin(g, mode){ GENDER = g || 'all'; MODE = mode || 'deep'; T0 = Date.now(); clearDraft(); PAPER = pickPaper(MODE === 'quick' ? 2 : 8); A = new Array(PAPER.length).fill(null); i = 0; render(); }
 function render(){
-  if (i >= PAPER.length) return result();
+  if (i >= PAPER.length) { clearDraft(); return MODE === 'quick' ? quickResult() : result(); }
   const q = PAPER[i];
+  var cells = '';
+  for (var k = 0; k < PAPER.length; k++) {
+    var st = (A[k] !== null && A[k] !== undefined) ? ' done' : '';
+    if (k === i) st += ' cur';
+    cells += '<div class="qcell' + st + '" onclick="jumpTo(' + k + ')">' + (k + 1) + '</div>';
+  }
   let h = '<div class="prog"><i style="width:'+Math.round(i/PAPER.length*100)+'%"></i></div>';
-  h += '<div class="card"><div class="step">第 '+(i+1)+' 题</div>'
-     + '<div class="stem">'+q.stem+'</div><div id="o"></div>'
-     + '<div class="nav"><button onclick="back()">'+(i===0?'返回上一步':'上一题')+'</button></div></div>';
+  h += '<div class="qn"><button class="qnbtn" onclick="toggleNav()">题目导航</button>'
+     + '<span class="qntip">第 ' + (i+1) + ' / ' + PAPER.length + ' 题 · ' + (MODE === 'quick' ? '快速版' : '深度版') + '</span></div>'
+     + '<div class="qgrid" id="qgrid" style="display:none">' + cells + '</div>';
+  h += '<div class="card"><div class="stem">'+q.stem+'</div><div id="o"></div>'
+     + '<div class="nav"><button onclick="back()">'+(i===0?'返回上一步':'上一题')+'</button>'
+     + '<button class="nx" onclick="next()">下一题</button></div>'
+     + '<label class="autowrap"><input type="checkbox" id="autocb" ' + (AUTONEXT ? 'checked' : '') + ' onchange="setAuto(this.checked)"> 选完自动进入下一题</label></div>';
   app.innerHTML = h;
   const box = document.getElementById('o');
   q.opts.forEach(function(o,k){
     const b = document.createElement('button');
     b.className = 'btn' + (A[i]===k?' sel':'');
     b.textContent = o;
-    b.onclick = function(){ A[i]=k; i++; render(); };
+    b.onclick = function(){
+      A[i]=k; saveDraft();
+      if (AUTONEXT) { i++; render(); } else { render(); }
+    };
     box.appendChild(b);
   });
 }
+
+function next(){
+  if (A[i] === null || A[i] === undefined) { alert('先选一个答案再进入下一题'); return; }
+  i++; saveDraft(); render();
+}
+function jumpTo(k){
+  i = Math.max(0, Math.min(PAPER.length - 1, k));
+  render();
+}
+function toggleNav(){
+  var g = document.getElementById('qgrid');
+  if (g) g.style.display = (g.style.display === 'none' || !g.style.display) ? 'grid' : 'none';
+}
+function setAuto(v){
+  AUTONEXT = !!v;
+  try { localStorage.setItem('atlas_auto', AUTONEXT ? '1' : '0'); } catch (e) {}
+}
+
 function back(){ if (i>0){ i--; render(); } else { start(); } }
 function quality(){
   const mins = (T1-T0)/60000;
@@ -443,6 +524,266 @@ function quality(){
   if (mr >= 10) flags.push('有连续 ' + mr + ' 题选同一位置');
   return {flags:flags, maxrun:mr};
 }
+
+// ===== v0.35 双版本：密码门 / 快速结果 / 草稿 =====
+var MODE = 'deep';
+var AUTONEXT = true;
+try { if (localStorage.getItem('atlas_auto') === '0') AUTONEXT = false; } catch (e) {}
+var GATE_H = 'kzk4r';  // 占位：hash('ATLAS88'+SALT) 待重算
+
+function hash(s){
+  var h = 0;
+  for (var k = 0; k < s.length; k++) { h = ((h << 5) - h + s.charCodeAt(k)) | 0; }
+  return Math.abs(h).toString(36);
+}
+
+function gate(){
+  app.innerHTML = '<div class="eyebrow">ATLAS · 深度版</div><h1>输入解锁密码</h1>'
+   + '<div class="lead">深度版 64 题 · 约 12 分钟<br>完整档案 · 密码见购买后店铺消息</div>'
+   + '<div class="card"><div class="step">解锁密码</div>'
+   + '<input id="gateIn" placeholder="请输入密码" autocomplete="off" style="width:100%;padding:14px;border:1px solid #E3DACD;border-radius:12px;font-size:16px;box-sizing:border-box;background:#FFFDF9">'
+   + '<button class="btn" style="background:#B5651D;color:#fff;border-color:#B5651D;text-align:center;margin-top:10px" onclick="checkGate()">解锁并开始</button>'
+   + '<div id="gateMsg" style="margin-top:8px;color:#A8442E;font-size:13px"></div></div>'
+   + '<button class="btn" onclick="start()">返回</button>';
+}
+
+function checkGate(){
+  var el = document.getElementById('gateIn');
+  var msg = document.getElementById('gateMsg');
+  var v = (el && el.value || '').trim();
+  if (!v) { msg.textContent = '请输入密码'; return; }
+  if (hash(v) === GATE_H) { begin(GENDER, 'deep'); }
+  else { msg.textContent = '密码不对，请检查店铺消息里的口令'; }
+}
+
+function quickResult(){
+  clearDraft();
+  T1 = Date.now();
+  var sc = {}; DIMS.forEach(function(d){ sc[d] = 0; });
+  PAPER.forEach(function(q, k){ sc[q.dim] += q.scores[A[k]]; });
+  var r = nearest(sc);
+  var p = r.best;
+  var order = DIMS.slice().sort(function(a, b){ return sc[b] - sc[a]; });
+  var top3 = order.slice(0, 3);
+  var low = order[order.length - 1];
+  var tag = (TALK[p.arch] && TALK[p.arch][0]) || INTRO[p.arch] || '';
+  var intro = INTRO[p.arch] || '';
+  var hook = PULL_LO[low] || '';
+  var rows = top3.map(function(d, k){
+    return '<div class="row"><span>' + d + '</span><b>第 ' + (k + 1) + ' 位 · 靠前</b></div>';
+  }).join('');
+  app.innerHTML = '<div class="eyebrow">ATLAS · 快速版结果</div>'
+   + '<h1 style="font-size:42px">' + p.name + '</h1>'
+   + '<div class="lead">' + p.era + ' · ' + p.role + '</div>'
+   + '<div class="card"><div class="step">TA 大概会这么跟你说</div>'
+   + '<p style="font-size:17px;line-height:1.9;margin:6px 0">「' + tag + '」</p>'
+   + '<p style="color:#8A7B70;font-size:13px;margin:0">' + intro + '</p></div>'
+   + '<div class="card"><div class="step">16 题里最明显的三块</div>' + rows
+   + '<div style="margin-top:10px;color:#A8442E;font-size:14px;line-height:1.7">' + hook + '</div></div>'
+   + '<div class="card" style="background:#FBF7F0"><div class="step">想要完整档案？</div>'
+   + '<p style="font-size:14px;line-height:1.85;color:#5A4A40;margin:6px 0">深度版 64 题会给你：八维完整图 · 你和 TA 的共同底色 · 现实中的你 · 你身上的拉扯 · 最容易卡住的地方 · 你的解药 · 你选的那几道题 · TA 对你说的三句话。</p>'
+   + '<button class="btn" style="background:#B5651D;color:#fff;border-color:#B5651D;text-align:center" onclick="gate()">解锁深度版 · 64 题</button></div>'
+   + '<div class="copy"><button onclick="saveCardSq()">保存方图</button>&nbsp;<button onclick="saveCardLg()">保存长图</button>&nbsp;<button onclick="copyIt()">复制文案</button>&nbsp;<button onclick="copyResultLink()">复制结果链接</button>&nbsp;<button onclick="showHistoryList()">历史记录</button></div>'
+   + '<button class="btn" onclick="start()">重新测</button>'
+   + '<div class="foot">快速版只用了 16 题，结果仅供参考 · AI 整理</div>';
+  window.__person = p; window.__order = order; window.__low = low; window.__sc = sc; window.__mode = 'quick';
+  window.__parts = [
+    {h:'你是哪种人', p:'16 题里最明显的是「' + top3[0] + '」「' + top3[1] + '」「' + top3[2] + '」，' + tag},
+    {h:'你身上的拉扯', p:'「' + top3[0] + '」很靠前、「' + low + '」很靠后。' + hook + '。这不是缺点，是这套底色的代价'},
+    {h: p.name + ' 对你说的', p:'「' + p.quote + '」'}
+  ];
+  window.__txt = '测了一下「你像哪位古人」，结果被判成「' + p.name + '」（' + p.era + '·' + p.role + '）'
+    + '…被这句「' + hook + '」暴击了'
+    + '\n你像谁？👉 https://x-x811.github.io/xmbg-test/';
+  window.__quick = p;
+  saveHistory();
+}
+
+var HIST_KEY = 'atlas_history';
+function saveHistory(){
+  try {
+    if (window._PREVIEW_P) return;  // 预览模式不存历史
+    if (!window.__person || !window.__order) return;
+    var entry = {
+      v: 1, t: Date.now(), mode: window.__mode || 'deep',
+      name: window.__person.name, order: window.__order,
+      low: window.__low, sc: window.__sc,
+      parts: window.__parts, txt: window.__txt,
+      html: app.innerHTML
+    };
+    var arr = loadHistoryArr();
+    arr.unshift(entry);
+    if (arr.length > 5) arr = arr.slice(0, 5);
+    localStorage.setItem(HIST_KEY, JSON.stringify(arr));
+  } catch (e) {}
+}
+function loadHistoryArr(){
+  try {
+    var s = localStorage.getItem(HIST_KEY);
+    var a = s ? JSON.parse(s) : [];
+    return Array.isArray(a) ? a : [];
+  } catch (e) { return []; }
+}
+function showHistoryEntry(idx){
+  var arr = loadHistoryArr();
+  var e = arr[idx];
+  if (!e) { alert('这条记录不存在（可能被清理过）'); return; }
+  app.innerHTML = e.html;
+  window.__person = PEOPLE.filter(function(x){ return x.name === e.name; })[0] || null;
+  window.__order = e.order; window.__low = e.low; window.__sc = e.sc;
+  window.__parts = e.parts; window.__txt = e.txt; window.__mode = e.mode || 'deep';
+  window.scrollTo(0, 0);
+}
+function showHistoryList(){
+  var arr = loadHistoryArr();
+  if (!arr.length) { alert('还没有历史记录'); return; }
+  var h = '<div class="eyebrow">ATLAS · 历史记录</div><h1 style="font-size:30px">最近 ' + arr.length + ' 次结果</h1>';
+  arr.forEach(function(e, i){
+    var d = new Date(e.t);
+    var ts = (d.getMonth()+1) + '月' + d.getDate() + '日 ' + ('0'+d.getHours()).slice(-2) + ':' + ('0'+d.getMinutes()).slice(-2);
+    h += '<button class="btn" onclick="showHistoryEntry(' + i + ')">' + e.name + ' · ' + (e.mode === 'quick' ? '快速版' : '完整版') + ' · ' + ts + '</button>';
+  });
+  h += '<button class="btn" onclick="start()">返回首页</button>';
+  app.innerHTML = h;
+}
+
+function saveDraft(){
+  try {
+    if (!PAPER || !PAPER.length) return;
+    var idx = PAPER.map(function(q){ return Q.indexOf(q); });
+    localStorage.setItem('atlas_draft', JSON.stringify({ v: 1, mode: MODE, g: GENDER, p: idx, a: A, i: i }));
+  } catch (e) {}
+}
+
+function loadDraft(){
+  try {
+    var s = localStorage.getItem('atlas_draft');
+    return s ? JSON.parse(s) : null;
+  } catch (e) { return null; }
+}
+
+function clearDraft(){
+  try { localStorage.removeItem('atlas_draft'); } catch (e) {}
+}
+
+function resumeDraft(){
+  var d = loadDraft();
+  if (!d || !d.p) { start(); return; }
+  MODE = d.mode || 'deep';
+  GENDER = d.g || 'all';
+  PAPER = d.p.map(function(k){ return Q[k]; }).filter(Boolean);
+  A = d.a || [];
+  i = d.i || 0;
+  if (i >= PAPER.length) { clearDraft(); return MODE === 'quick' ? quickResult() : result(); }
+  render();
+}
+
+
+function makeResultLink(){
+  if (!window.__person || !window.__order) return '';
+  var o = window.__order.map(function(d){ return DIMS.indexOf(d); });
+  var s = window.__order.map(function(d){ return window.__sc[d]; });
+  var snap = {v:1, n:window.__person.name, o:o, s:s, m:window.__mode || 'deep'};
+  var b64 = btoa(unescape(encodeURIComponent(JSON.stringify(snap))));
+  return 'https://x-x811.github.io/xmbg-test/?r=' + encodeURIComponent(b64);
+}
+function copyResultLink(){
+  var link = makeResultLink();
+  if (!link) { alert('结果还没生成'); return; }
+  var ta = document.createElement('textarea');
+  ta.value = link; document.body.appendChild(ta); ta.select();
+  try {
+    document.execCommand('copy');
+    alert('结果链接已复制。\n存到微信收藏里，换手机/清缓存也能打开；发给朋友也能看同样结果。\n\n' + link);
+  } catch(e) {
+    alert('复制失败，手动复制：\n' + link);
+  }
+  document.body.removeChild(ta);
+}
+function renderLight(s){
+  var p = s.n ? PEOPLE.filter(function(x){ return x.name === s.n; })[0] : PEOPLE[s.p];
+  if (!p) { start(); return; }
+  var order = s.o.map(function(k){ return DIMS[k]; });
+  var sc = {};
+  order.forEach(function(d, k){ sc[d] = s.s[k]; });
+  var top = order[0], sec = order[1], low = order[7];
+  var avg = 0; DIMS.forEach(function(d){ avg += sc[d]; }); avg = avg / 8;
+  var dev = {}; DIMS.forEach(function(d){ dev[d] = sc[d] - avg; });
+  var lv = function(d){ return dev[d] >= 2 ? 'hi' : (dev[d] <= -2 ? 'lo' : 'mid'); };
+  var _cd = DIMS.map(function(d, i){ return {d: d, v: Math.abs(p.vec[i] - (12 + dev[d])) }; });
+  _cd.sort(function(a, b){ return a.v - b.v; });
+  var closest2 = [_cd[0].d, _cd[1].d];
+  var m = nearest(sc, s.m === 'quick' ? 2 : 8);
+  var _sd = DIMS.map(function(d, i){ return {d: d, v: Math.abs(m.second.vec[i] - (12 + dev[d])) }; });
+  _sd.sort(function(a, b){ return b.v - a.v; });
+  var unlike = _sd[0].d;
+  var tk = TALK[p.arch] || ['', ''];
+  var introLine = INTRO[p.arch] || '';
+
+  var h = '<div class="eyebrow">ATLAS · 你的档案</div>'
+    + '<div class="big">' + p.name + '</div>'
+    + '<div class="meta">' + p.era + ' · ' + p.role + '</div>'
+    + '<div class="intro">' + introLine + '</div>'
+    + '<div class="line">「' + p.quote + '」</div>';
+
+  h += '<div class="card">';
+  order.forEach(function(d, idx){
+    var tag = idx < 3 ? '靠前' : (idx >= 5 ? '靠后' : '中间');
+    var pct = 100 - idx * 8;
+    var col = idx === 0 ? '#A8442E' : (idx < 3 ? '#B5651D' : (idx >= 6 ? '#B9AEA0' : '#D9B99B'));
+    h += '<div class="dim"><div class="t"><span>' + d + '</span><span>第' + (idx + 1) + '位 · ' + tag + '</span></div>'
+       + '<div class="trk"><div class="fil" style="width:' + pct + '%;background:' + col + '"></div></div></div>';
+  });
+  h += '<div class="note">第 1 位是你最靠前的一块；前 3 块重测也不会变</div></div>';
+
+  h += '<div class="card">';
+  h += '<div class="sec"><h3>你是哪种人</h3><p>你身上最靠前的是「' + top + '」——' + SAY[top][lv(top)]
+     + '第二块是「' + sec + '」，' + SAY[sec][lv(sec)]
+     + '<br><br>' + MECH[top][lv(top)]
+     + '<br><br>这两样放在一起，你是那种在「' + BEST[top].replace('的时候。', '') + '」里会站出来的人。</p></div>';
+  h += '<div class="sec"><h3>你和 ' + p.name + ' 的共同底色</h3><p>'
+     + '把你和 TA 的八维放在一起比，最接近的两块是「' + closest2[0] + '」和「' + closest2[1] + '」。'
+     + '这是你和他最像的地方——不是经历像，是遇事的反应像。</p></div>';
+  h += '<div class="sec"><h3>第二像你的：' + m.second.name + '</h3><p>'
+     + '你和 TA 最不像的是「' + unlike + '」——同一个局面，你们会做不同的选择。'
+     + '相似的地方让你安心，不一样的地方才让你知道自己是谁。</p></div>';
+  h += '<div class="sec"><h3>现实中的你</h3><p>工作里，' + WORK[top] + ' 关系里，' + REL[top] + '</p></div>';
+  h += '<div class="sec"><h3>你身上的拉扯</h3>'
+     + '<div class="pull"><div class="tag hi">🔴 ' + top + ' · 第 1 位</div>'
+     + '<div class="vs">×</div>'
+     + '<div class="tag lo">🔵 ' + low + ' · 第 8 位</div></div>'
+     + '<p><b class="hl">' + (PULL_HI[top] || '') + '</b>；' + (PULL_LO[low] || '') + '。'
+     + '<br><br>这不是缺点，是你这套底色的代价——你的强项走到哪儿，代价就跟到哪儿。</p></div>';
+  h += '<div class="sec"><h3>你最容易卡住的地方</h3><p><b class="hl">' + WORST[low] + '</b> 这种处境会持续消耗你——不是能力问题，是底色不合。</p></div>';
+  h += '<div class="sec"><h3>你自己可能没意识到的</h3><p>' + BLIND[low] + '</p></div>';
+  h += '<div class="sec"><h3>你身边人看到的你</h3><p>' + FACE[top] + '</p></div>';
+  h += '<div class="sec"><h3>你的解药</h3><p><b class="hl">' + CURE[low] + '</b></p></div>';
+  h += '<details class="fold"><summary>如果 ' + p.name + ' 对你说三句话（展开看）</summary><div class="foldbody"><p>'
+     + '「' + p.quote + '」<br>「' + tk[0] + '」<br>「' + tk[1] + '」</p></div></details>';
+  h += '</div>';
+
+  h += '<div class="sec"><h3>把这个发给朋友</h3><p>让他们也测一次，看看像谁——结果不一样才好玩。</p></div>';
+  h += '<div class="copy"><button onclick="saveCardSq()">保存方图</button>&nbsp;<button onclick="saveCardLg()">保存长图</button>&nbsp;<button onclick="copyIt()">复制文案</button>&nbsp;<button onclick="copyResultLink()">复制结果链接</button></div>'
+     + '<div id="card-box"></div>';
+  h += '<button class="btn" onclick="start()">重新测一次</button>';
+  h += '<div class="foot">传统民俗 · AI 整理 · 仅供自我了解，不构成心理诊断<br>这是从分享链接打开的结果 · 次选：' + m.second.name + '（' + m.second.era + '·' + m.second.role + '）</div>';
+  app.innerHTML = h;
+  window.__person = p; window.__order = order; window.__low = low; window.__sc = sc;
+  window.__mode = s.m || 'deep';
+  window.__parts = [
+    {h: '你是哪种人', p: '你身上最靠前的是「' + top + '」——' + SAY[top][lv(top)] + '第二块是「' + sec + '」，' + SAY[sec][lv(sec)]},
+    {h: '你和 ' + p.name + ' 最像的两块', p: '「' + closest2[0] + '」和「' + closest2[1] + '」——不是经历像，是遇事的反应像'},
+    {h: '你身上的拉扯', p: '「' + top + '」很靠前、「' + low + '」很靠后。' + (PULL_HI[top] || '') + '；' + (PULL_LO[low] || '') + '。这不是缺点，是这套底色的代价'},
+    {h: '你自己可能没意识到的', p: BLIND[low]},
+    {h: '你的解药', p: CURE[low]},
+    {h: '如果 ' + p.name + ' 对你说三句话', p: '「' + p.quote + '」 「' + tk[0] + '」 「' + tk[1] + '」'}
+  ];
+  window.__txt = '测了一下「你像哪位古人」，结果被判成「' + p.name + '」（' + p.era + '·' + p.role + '）…'
+    + (PULL_LO[low] ? '\n被这句「' + PULL_LO[low] + '」暴击了' : '')
+    + '\n你像谁？👉 https://x-x811.github.io/xmbg-test/';
+  window.scrollTo(0, 0);
+}
+
 function result(){
   // 预览模式：?preview=人物名 → 直接用该人物的向量渲染（不经答题）
   const _m = location.search.match(/[?&]preview=([^&]+)/);
@@ -506,8 +847,9 @@ function result(){
   order.forEach(function(d,idx){
     const tag = idx<3?'靠前':(idx>=5?'靠后':'中间');
     const pct = 100 - idx*8;   // 第1名满格，第8名 44%
+    const col = idx===0 ? '#A8442E' : (idx<3 ? '#B5651D' : (idx>=6 ? '#B9AEA0' : '#D9B99B'));
     h += '<div class="dim"><div class="t"><span>'+d+'</span><span>第'+(idx+1)+'位 · '+tag+'</span></div>'
-       + '<div class="trk"><div class="fil" style="width:'+pct+'%;background:'+(idx<3?'#B5651D':'#D9B99B')+'"></div></div></div>';
+       + '<div class="trk"><div class="fil" style="width:'+pct+'%;background:'+col+'"></div></div></div>';
   });
   h += '<div class="note">第 1 位是你最靠前的一块；前 3 块重测也不会变</div></div>';
 
@@ -526,14 +868,16 @@ function result(){
      + '相似的地方让你安心，不一样的地方才让你知道自己是谁。</p></div>';
 
   h += '<div class="sec"><h3>现实中的你</h3><p>工作里，'+WORK[top]+' 关系里，'+REL[top]+'</p></div>';
-  h += '<div class="sec"><h3>你身上的拉扯</h3><p>'
-     + '你身上「'+top+'」很靠前，「'+low+'」很靠后。这两样放在一起，就是最耗你的地方：'
-     + (PULL_HI[top]||'') + '；' + (PULL_LO[low]||'') + '。'
+  h += '<div class="sec"><h3>你身上的拉扯</h3>'
+     + '<div class="pull"><div class="tag hi">🔴 '+top+' · 第 1 位</div>'
+     + '<div class="vs">×</div>'
+     + '<div class="tag lo">🔵 '+low+' · 第 8 位</div></div>'
+     + '<p><b class="hl">' + (PULL_HI[top]||'') + '</b>；' + (PULL_LO[low]||'') + '。'
      + '<br><br>这不是缺点，是你这套底色的代价——你的强项走到哪儿，代价就跟到哪儿。</p></div>';
-  h += '<div class="sec"><h3>你最容易卡住的地方</h3><p>'+WORST[low]+' 这种处境会持续消耗你——不是能力问题，是底色不合。</p></div>';
+  h += '<div class="sec"><h3>你最容易卡住的地方</h3><p><b class="hl">'+WORST[low]+'</b> 这种处境会持续消耗你——不是能力问题，是底色不合。</p></div>';
   h += '<div class="sec"><h3>你自己可能没意识到的</h3><p>'+BLIND[low]+'</p></div>';
   h += '<div class="sec"><h3>你身边人看到的你</h3><p>'+FACE[top]+'</p></div>';
-  h += '<div class="sec"><h3>你的解药</h3><p>'+CURE[low]+'</p></div>';
+  h += '<div class="sec"><h3>你的解药</h3><p><b class="hl">'+CURE[low]+'</b></p></div>';
   // 引用用户自己的选择（说事实 + 一句解读，不编"多少人选"）
   (function(){
     const cand = [];
@@ -545,23 +889,23 @@ function result(){
     const loPicks = cand.filter(function(x){ return x.s === 0; }).slice(0,2);
     const picks = hiPicks.concat(loPicks).slice(0,3);
     if (picks.length) {
-      h += '<div class="sec"><h3>你选的那几道题</h3><p>';
+      h += '<details class="fold"><summary>你选的那几道题（展开看）</summary><div class="foldbody"><p>';
       picks.forEach(function(x){
         h += '「' + x.q.stem + '」<br>你选了：' + x.txt + '<br>';
         h += (x.s === 3
           ? '这一题你选得很快——不用想，你就是这么活的。<br><br>'
           : '这一题你直接放弃了使劲——不是懒，是你心里清楚这件事不值得你费劲。<br><br>');
       });
-      h += '同一份问卷里，有的事你一秒就定，有的事连试都不想试——两头加起来，才是你的形状。</p></div>';
+      h += '同一份问卷里，有的事你一秒就定，有的事连试都不想试——两头加起来，才是你的形状。</p></div></details>';
     }
   })();
 
-  h += '<div class="sec"><h3>如果 '+p.name+' 对你说三句话</h3><p>'
-     + '「'+p.quote+'」<br>「'+tk[0]+'」<br>「'+tk[1]+'」</p></div>';
+  h += '<details class="fold"><summary>如果 '+p.name+' 对你说三句话（展开看）</summary><div class="foldbody"><p>'
+     + '「'+p.quote+'」<br>「'+tk[0]+'」<br>「'+tk[1]+'」</p></div></details>';
   h += '</div>';
 
   h += '<div class="sec"><h3>把这个发给朋友</h3><p>让他们也测一次，看看像谁——结果不一样才好玩。</p></div>';
-  h += '<div class="copy"><button onclick="saveCard()">保存结果卡</button>&nbsp;&nbsp;<button onclick="copyIt()">复制结果</button>&nbsp;&nbsp;<button onclick="start()">重新测一次</button></div>'
+  h += '<div class="copy"><button onclick="saveCardSq()">保存方图</button>&nbsp;<button onclick="saveCardLg()">保存长图</button>&nbsp;&nbsp;<button onclick="copyIt()">复制文案</button>&nbsp;<button onclick="copyResultLink()">复制结果链接</button>&nbsp;&nbsp;<button onclick="start()">重新测一次</button>&nbsp;<button onclick="showHistoryList()">历史记录</button></div>'
      + '<div id="card-box"></div>';
   h += '<div class="foot">传统民俗 · AI 整理 · 仅供自我了解，不构成心理诊断<br>次选：'+m.second.name+'（'+m.second.era+'·'+m.second.role+'）</div>';
 
@@ -577,125 +921,87 @@ function result(){
     {h:'你的解药', p:CURE[low]},
     {h:'如果 '+p.name+' 对你说三句话', p:'「'+p.quote+'」 「'+tk[0]+'」 「'+tk[1]+'」'}
   ];
-  window.__txt = '【你像哪位古人】'+p.name+'（'+p.era+'·'+p.role+'）\n'
-    + '台词：'+p.quote+'\n'
-    + order.map(function(d,k){ return '第'+(k+1)+' '+d; }).join('\n')
-    + '\n次选：'+m.second.name
-    + '\n盲点：'+WORST[low];
+  window.__mode = 'deep';
+  window.__txt = '测了一下「你像哪位古人」，结果被判成「' + p.name + '」（' + p.era + '·' + p.role + '）…'
+    + (PULL_LO[low] ? '\n被这句「' + PULL_LO[low] + '」暴击了' : '')
+    + '\n你像谁？👉 https://x-x811.github.io/xmbg-test/';
+  saveHistory();
 }
-function saveCard(){
-  const p = window.__person, order = window.__order, sc = window.__sc;
-  const parts = window.__parts;
-  if (!p || !parts) { alert('请先完成测试'); return; }
+function saveCard(mode){
+  const p = window.__person, order = window.__order, low = window.__low;
+  if (!p || !order) { alert('请先完成测试'); return; }
+  const square = (mode === 'square');
   try {
-    const W = 1080, PAD = 90;
+    const W = 1080, PAD = 84;
     const g0 = document.createElement('canvas').getContext('2d');
-    // ---- 先排版：算出每一块的高度 ----
-    const blocks = [];
-    blocks.push({t:'eyebrow', s:'ATLAS · 你的档案'});
-    blocks.push({t:'name', s:p.name});
-    blocks.push({t:'meta', s:p.era + ' · ' + p.role});
-    blocks.push({t:'intro', s:INTRO[p.arch] || ''});
-    blocks.push({t:'quote', s:'「' + p.quote + '」'});
-    blocks.push({t:'hr'});
-    blocks.push({t:'dims'});
-    parts.forEach(function(x){ blocks.push({t:'h', s:x.h}); blocks.push({t:'p', s:x.p}); });
-    blocks.push({t:'foot', s:'传统民俗 · AI 整理 · 仅供自我了解'});
-
-    function fontOf(t){
-      if (t==='eyebrow') return '26px sans-serif';
-      if (t==='name') return '104px "STKaiti","KaiTi",serif';
-      if (t==='meta') return '38px sans-serif';
-      if (t==='intro') return '28px sans-serif';
-      if (t==='quote') return '40px "STKaiti","KaiTi",serif';
-      if (t==='h') return '34px "STKaiti","KaiTi",serif';
-      if (t==='p') return '30px sans-serif';
-      if (t==='foot') return '24px sans-serif';
-      return '30px sans-serif';
-    }
     function wrapLines(text, font, maxW){
       g0.font = font;
       const lines = []; let line = '';
       for (const ch of String(text)) {
-        if (g0.measureText(line + ch).width > maxW) { lines.push(line); line = ch; }
-        else line += ch;
+        if (g0.measureText(line + ch).width > maxW) { lines.push(line); line = ch; } else line += ch;
       }
       if (line) lines.push(line);
       return lines;
     }
-    let y = 70;
-    blocks.forEach(function(b){
-      if (b.t==='hr') { y += 40; return; }
-      if (b.t==='dims') { y += 8*92 + 30; return; }
-      const f = fontOf(b.t);
-      const maxW = W - PAD*2;
-      if (b.t==='name') { y += 130; return; }
-      if (b.t==='quote') { const ls = wrapLines(b.s, f, maxW); y += ls.length*54 + 40; b._lines = ls; return; }
-      const lh = b.t==='p' ? 48 : (b.t==='h' ? 46 : 40);
-      const ls = wrapLines(b.s, f, maxW);
-      b._lines = ls;
-      y += ls.length*lh + (b.t==='h' ? 14 : 26);
-    });
-    const H = Math.max(1200, y + 90);
-
-    // ---- 再绘制 ----
+    const hook = (PULL_LO[low] || '');
+    const H = square ? 1350 : 1920;
     const c = document.createElement('canvas');
     c.width = W; c.height = H;
     const g = c.getContext('2d');
     g.fillStyle = '#F5F4F2'; g.fillRect(0, 0, W, H);
-    g.textAlign = 'center';
+    g.fillStyle = '#EAE0D3'; g.fillRect(PAD, 66, W - PAD*2, 2);
 
-    let cy = 70;
-    blocks.forEach(function(b){
-      if (b.t==='hr') {
-        g.strokeStyle = '#EAE0D3'; g.lineWidth = 2;
-        g.beginPath(); g.moveTo(PAD, cy); g.lineTo(W-PAD, cy); g.stroke();
-        cy += 40; return;
-      }
-      if (b.t==='dims') {
-        cy += 8;
-        order.forEach(function(d, idx){
-          const pct = (100 - idx*8)/100;
-          g.textAlign = 'left'; g.fillStyle = '#5A4A40'; g.font = '30px sans-serif';
-          g.fillText(d, PAD, cy);
-          g.textAlign = 'right'; g.fillStyle = '#A8988A'; g.font = '26px sans-serif';
-          g.fillText('第' + (idx+1) + '位', W-PAD, cy);
-          g.fillStyle = '#EAE0D3'; g.fillRect(PAD, cy+16, W-PAD*2, 12);
-          g.fillStyle = idx < 3 ? '#B5651D' : '#D9B99B'; g.fillRect(PAD, cy+16, (W-PAD*2)*pct, 12);
-          cy += 92;
-        });
-        cy += 30; return;
-      }
-      if (b.t==='name') {
-        g.textAlign = 'center'; g.fillStyle = '#3A2E2A'; g.font = fontOf('name');
-        g.fillText(b.s, W/2, cy + 96); cy += 130; return;
-      }
-      if (b.t==='eyebrow') { g.textAlign='center'; g.fillStyle='#A8988A'; g.font=fontOf('eyebrow'); g.fillText(b.s, W/2, cy+26); cy += 60; return; }
-      if (b.t==='meta') { g.textAlign='center'; g.fillStyle='#8A7B70'; g.font=fontOf('meta'); g.fillText(b.s, W/2, cy+38); cy += 78; return; }
-      if (b.t==='intro') { g.textAlign='center'; g.fillStyle='#8A7B70'; g.font=fontOf('intro'); g.fillText(b.s, W/2, cy+34); cy += 70; return; }
-      if (b.t==='quote') {
-        g.textAlign='center'; g.fillStyle='#B5651D'; g.font=fontOf('quote');
-        (b._lines||[b.s]).forEach(function(l, k){ g.fillText(l, W/2, cy+46+k*54); });
-        cy += (b._lines||[b.s]).length*54 + 40; return;
-      }
-      if (b.t==='h') {
-        g.textAlign='left'; g.fillStyle='#B5651D'; g.font=fontOf('h');
-        g.fillText(b.s, PAD, cy+40); cy += 46 + 14; return;
-      }
-      if (b.t==='p') {
-        g.textAlign='left'; g.fillStyle='#5A4A40'; g.font=fontOf('p');
-        (b._lines||[b.s]).forEach(function(l, k){ g.fillText(l, PAD, cy+40+k*48); });
-        cy += (b._lines||[b.s]).length*48 + 26; return;
-      }
-      if (b.t==='foot') {
-        g.textAlign='center'; g.fillStyle='#B3A596'; g.font=fontOf('foot');
-        g.fillText(b.s, W/2, H-50); return;
-      }
+    let cy = 140;
+    g.textAlign = 'center'; g.fillStyle = '#A8988A'; g.font = '26px sans-serif';
+    g.fillText('ATLAS · 你的档案', W/2, cy); cy += 120;
+
+    g.fillStyle = '#3A2E2A'; g.font = '118px "STKaiti","KaiTi",serif';
+    g.fillText(p.name, W/2, cy); cy += 54;
+
+    g.fillStyle = '#8A7B70'; g.font = '36px sans-serif';
+    g.fillText(p.era + ' · ' + p.role, W/2, cy); cy += 86;
+
+    if (hook) {
+      g.fillStyle = '#A8442E'; g.font = '44px "STKaiti","KaiTi",serif';
+      const hl = wrapLines(hook, '44px "STKaiti","KaiTi",serif', W - PAD*2).slice(0, 2);
+      hl.forEach(function(l, k){ g.fillText(l, W/2, cy + k*56); });
+      cy += hl.length * 56 + 56;
+    }
+
+    order.forEach(function(d, idx){
+      const pct = (100 - idx*8) / 100;
+      const col = idx === 0 ? '#A8442E' : (idx < 3 ? '#B5651D' : (idx >= 6 ? '#B9AEA0' : '#D9B99B'));
+      g.textAlign = 'left'; g.fillStyle = '#3A2E2A'; g.font = '30px sans-serif';
+      g.fillText(d, PAD, cy);
+      g.textAlign = 'right'; g.fillStyle = '#A8988A'; g.font = '26px sans-serif';
+      g.fillText('第' + (idx+1) + '位', W - PAD, cy);
+      g.fillStyle = '#EAE0D3'; g.fillRect(PAD, cy + 18, W - PAD*2, 14);
+      g.fillStyle = col; g.fillRect(PAD, cy + 18, (W - PAD*2) * pct, 14);
+      cy += 88;
     });
+
+    if (!square) {
+      cy += 40;
+      (window.__parts || []).slice(0, 3).forEach(function(x){
+        g.textAlign = 'left'; g.fillStyle = '#B5651D'; g.font = '30px "STKaiti","KaiTi",serif';
+        g.fillText(x.h, PAD, cy); cy += 44;
+        g.fillStyle = '#5A4A40'; g.font = '26px sans-serif';
+        const ps = wrapLines(x.p, '26px sans-serif', W - PAD*2).slice(0, 3);
+        ps.forEach(function(l, k){ g.fillText(l, PAD, cy + k*40); });
+        cy += ps.length * 40 + 34;
+      });
+    }
+
+    g.textAlign = 'center'; g.fillStyle = '#A8988A'; g.font = '22px sans-serif';
+    g.fillText(window.__mode === 'quick' ? '快速版 · 16 题' : '完整档案 · 64 题', W/2, H - 110);
+    g.textAlign = 'center'; g.fillStyle = '#B3A596'; g.font = '24px sans-serif';
+    g.fillText('你像哪位古人 · x-x811.github.io/xmbg-test', W/2, H - 72);
+    g.fillStyle = '#C9BEB0'; g.font = '20px sans-serif';
+    g.fillText('传统民俗 · AI 整理 · 仅供自我了解', W/2, H - 40);
 
     const dataUrl = c.toDataURL('image/png');
     const a = document.createElement('a');
-    a.download = '你像' + p.name + '.png';
+    a.download = '你像' + p.name + (square ? '_方图' : '_长图') + '.png';
     a.href = dataUrl;
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     const img = new Image();
@@ -712,18 +1018,40 @@ function saveCard(){
     alert('生成图片失败：' + e.message);
   }
 }
+
+function saveCardSq(){ saveCard("square"); }
+function saveCardLg(){ saveCard("long"); }
+
 function copyIt(){
-  const txt = window.__txt || '';
+  const p = window.__person, low = window.__low;
+  const hook = (window.__low && PULL_LO[low]) ? PULL_LO[low] : '';
+  let txt = '测了一下「你像哪位古人」，结果被判成「' + (p ? p.name : '') + '」';
+  if (p) txt += '（' + p.era + '·' + p.role + '）';
+  txt += '…';
+  if (hook) txt += '\n被这句「' + hook + '」暴击了';
+  txt += '\n你像谁？👉 https://x-x811.github.io/xmbg-test/';
   const ta = document.createElement('textarea');
   ta.value = txt; document.body.appendChild(ta); ta.select();
-  try { document.execCommand('copy'); alert('已复制，粘给我就行'); }
-  catch(e){ alert('复制失败，手动选吧：\n'+txt); }
+  try {
+    document.execCommand('copy');
+    alert('已复制分享文案，直接粘贴到小红书/朋友圈就行');
+  } catch(e) {
+    alert('复制失败，手动选吧：\n' + txt);
+  }
   document.body.removeChild(ta);
 }
-start();
-
-/* previewAuto: 带 ?preview=人物名 时直接渲染该人物的结果页 */
-if (/[?&]preview=/.test(location.search)) {
-  try { result(); } catch (e) { console.error('preview fail', e); }
-}
+(function init(){
+  var _rm = location.search.match(/[?&]r=([^&]+)/);
+  if (_rm) {
+    try {
+      var _rd = JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(_rm[1])))));
+      renderLight(_rd);
+      return;
+    } catch (e) { console.error('link decode fail', e); }
+  }
+  start();
+  if (/[?&]preview=/.test(location.search)) {
+    try { result(); } catch (e) { console.error('preview fail', e); }
+  }
+})();
 </script></body></html>
