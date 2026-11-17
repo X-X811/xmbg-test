@@ -73,6 +73,8 @@ h1{font-family:"STKaiti","KaiTi",serif;font-size:38px;font-weight:400;text-align
 .nav button.nx{background:#B5651D;color:#fff;border-color:#B5651D}
 .autowrap{display:block;margin-top:12px;font-size:12px;color:#8A7B70;cursor:pointer}
 .autowrap input{vertical-align:middle;margin-right:6px}
+.btn.skip{margin-top:10px;border-style:dashed;color:#A8988A;font-size:14px;background:transparent}
+.btn.skip.sel{border-color:#8A7B70;color:#5A4A40;border-style:solid}
 .hl{font-weight:700;color:#8A5A2A;font-size:17px;line-height:1.8}
 .pull{display:flex;align-items:center;gap:10px;margin:12px 0 14px;flex-wrap:wrap}
 .tag{flex:1;min-width:120px;text-align:center;padding:12px 10px;border-radius:12px;font-size:14px;font-weight:600}
@@ -412,9 +414,16 @@ function pickPaper(perDim){
 }
 function nearest(sc, perDim){
   // 按满分归一到 4-22 尺度（与人物向量同尺度），不中心化
-  perDim = perDim || (PAPER.length / 8);
-  const maxScore = perDim * 3;
-  const u = DIMS.map(function(d){ return 4 + sc[d] / maxScore * 18; });
+  // 有跳过题时：按每维实际答题数归一化（挑过的题不算）
+  var cnt = {}; DIMS.forEach(function(d){ cnt[d] = 0; });
+  if (!perDim && typeof A !== 'undefined' && A) {
+    PAPER.forEach(function(q, k){ if (A[k] >= 0) cnt[q.dim]++; });
+  }
+  const fallback = perDim || (PAPER.length / 8);
+  const u = DIMS.map(function(d){
+    const pd = cnt[d] > 0 ? cnt[d] : fallback;
+    return 4 + sc[d] / (pd * 3) * 18;
+  });
   let best=null, bd=1e9, second=null, sd=1e9;
   PEOPLE.forEach(function(p){
     let s=0;
@@ -501,6 +510,19 @@ function render(){
     };
     box.appendChild(b);
   });
+  // 第 5 选项：都不太像（跳过该题，不计分）
+  const sb = document.createElement('button');
+  sb.className = 'btn skip' + (A[i] === -1 ? ' sel' : '');
+  sb.textContent = '都不太像，先跳过';
+  sb.onclick = function(){
+    if (skippedCount() >= (MODE === 'quick' ? 2 : 6)) {
+      alert('跳过的题有点多了，这题选个最接近的试试');
+      return;
+    }
+    A[i] = -1; saveDraft();
+    if (AUTONEXT) { i++; render(); } else { render(); }
+  };
+  box.appendChild(sb);
 }
 
 function next(){
@@ -528,7 +550,10 @@ function quality(){
   let run=1, mr=1;
   for (let k=1;k<A.length;k++){ if(A[k]===A[k-1]){run++;if(run>mr)mr=run;} else run=1; }
   if (mr >= 10) flags.push('有连续 ' + mr + ' 题选同一位置');
-  return {flags:flags, maxrun:mr};
+  var sk = 0;
+  for (var k2 = 0; k2 < A.length; k2++) { if (A[k2] === -1) sk++; }
+  if (sk > 0) flags.push('有 ' + sk + ' 题选了「都不太像」');
+  return {flags:flags, maxrun:mr, skipped:sk};
 }
 
 // ===== v0.35 双版本：密码门 / 快速结果 / 草稿 =====
@@ -566,7 +591,7 @@ function quickResult(){
   clearDraft();
   T1 = Date.now();
   var sc = {}; DIMS.forEach(function(d){ sc[d] = 0; });
-  PAPER.forEach(function(q, k){ sc[q.dim] += q.scores[A[k]]; });
+  PAPER.forEach(function(q, k){ if (A[k] >= 0) sc[q.dim] += q.scores[A[k]]; });
   var r = nearest(sc);
   var p = r.best;
   var order = DIMS.slice().sort(function(a, b){ return sc[b] - sc[a]; });
@@ -651,6 +676,12 @@ function showHistoryList(){
   });
   h += '<button class="btn" onclick="start()">返回首页</button>';
   app.innerHTML = h;
+}
+
+function skippedCount(){
+  var n = 0;
+  for (var k = 0; k < A.length; k++) { if (A[k] === -1) n++; }
+  return n;
 }
 
 function saveDraft(){
@@ -805,7 +836,7 @@ function result(){
   }
   T1 = Date.now();
   const sc = {}; DIMS.forEach(function(d){sc[d]=0;});
-  PAPER.forEach(function(q,k){ sc[q.dim]+=q.scores[A[k]]; });
+  PAPER.forEach(function(q,k){ if (A[k] >= 0) sc[q.dim]+=q.scores[A[k]]; });
   const qc = quality();
   if (qc.maxrun >= 30){
     app.innerHTML = '<div class="eyebrow">ATLAS</div><h1>这次作答无效</h1>'
