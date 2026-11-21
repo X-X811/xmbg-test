@@ -58,6 +58,112 @@ h1{font-family:"STKaiti","KaiTi",serif;font-size:38px;font-weight:400;text-align
 .charhero-txt .eyebrow{color:#E9D9C4;letter-spacing:.18em}
 .charhero-txt .big{color:#FBF7F0;text-shadow:0 2px 16px rgba(0,0,0,.5);margin:2px 0 4px}
 .charhero-txt .meta{color:#E3D3BF}
+/** ===== 视觉升级 v0.56 ===== **/
+body{background:radial-gradient(1100px 620px at 50% -12%, #FCF7EE 0%, #F4F2ED 55%, #F0EDE7 100%)}
+.card{background:#FFFDFA;border:1px solid #EBE2D3;border-radius:20px;box-shadow:0 6px 26px rgba(120,90,60,.05)}
+.btn{border-radius:14px;border:1px solid #E6DCCB;background:#FFFEFA;transition:all .2s ease;box-shadow:0 1px 2px rgba(120,90,60,.04)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(120,90,60,.09)}
+.btn.sel{box-shadow:0 3px 12px rgba(181,101,29,.12)}
+.herobar{background:linear-gradient(115deg,#FFFDF8 0%,#FFF6E9 55%,#FFEFDA 100%);border:1px solid #EACFA6;border-radius:18px;box-shadow:0 8px 30px rgba(181,101,29,.10);overflow:hidden}
+.herobar::before{content:"";position:absolute;left:0;top:16%;bottom:16%;width:3px;border-radius:0 3px 3px 0;background:linear-gradient(#F0C77E,#B5651D)}
+.hb-title{letter-spacing:.04em}
+.hb-btn{box-shadow:0 4px 14px rgba(181,101,29,.25);transition:all .2s ease}
+.hb-btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(181,101,29,.3)}
+.catitem{border-radius:16px;transition:all .2s ease}
+.catitem:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(120,90,60,.08);border-color:#DFCFB4}
+.brand{letter-spacing:.5em;color:#B3946E}
+.htag{letter-spacing:.2em;color:#A8957A}
+.ptitle{letter-spacing:.05em;color:#2E241E}
+.sect-title{color:#A8957A;letter-spacing:.4em;font-size:11px}
+.sect-title::before,.sect-title::after{content:"";display:inline-block;width:26px;height:1px;background:#E3D5C0;vertical-align:middle;margin:0 10px}
+.mod{border-radius:16px;transition:all .2s ease}
+.mod:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(120,90,60,.08);border-color:#DFCFB4}
+.contact{background:linear-gradient(115deg,#FFFBF3,#FFF4E3);border:1px solid #EACFA6;border-radius:16px;box-shadow:0 4px 18px rgba(181,101,29,.06)}
+.gitem{transition:background .15s ease}
+.gitem:hover{background:#FFF8EC}
+.trust div{box-shadow:0 4px 16px rgba(120,90,60,.05);border-radius:14px}
+.phero h1{letter-spacing:.05em;color:#2E241E}
+.foot{color:#B7A894;letter-spacing:.08em}
+/* 顶部装饰细线 */
+.topline{height:1px;background:linear-gradient(90deg,transparent,#DCC9AE 50%,transparent);margin:10px 0 18px}
+/** ===== 暗色主题 v0.57 ===== **/
+.theme-btn{position:fixed;top:14px;right:14px;width:40px;height:40px;border-radius:50%;border:1px solid #E6DCCB;background:#FFFEFA;font-size:17px;cursor:pointer;z-index:999;box-shadow:0 4px 16px rgba(120,90,60,.12);line-height:1}
+body.dark{background:radial-gradient(1100px 620px at 50% -12%,#1D1915 0%,#151210 60%,#100E0B 100%);color:#E8E0D4}
+body.dark .theme-btn{background:#241E18;border-color:#3A3128;color:#E8E0D4}
+body.dark .card{background:#1E1A16;border-color:#2E2822;box-shadow:0 6px 26px rgba(0,0,0,.45)}
+body.dark .btn{background:#241E18;border-color:#3A3128;color:#E8E0D4}
+body.dark .btn.sel{border-color:#C99A5E;color:#E8D3B0}
+body.dark .herobar{background:linear-gradient(115deg,#251D15,#2B2117,#30241A);border-color:#4A3A24;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+body.dark .herobar::before{background:linear-gradient(#E8B96A,#8A5A2A)}
+body.dark .hb-title{color:#F2E8D8}
+body.dark .hb-sub{color:#A8988A}
+body.dark .hb-tag{background:#8A5A2A}
+body.dark .hb-dots i{background:#3A3128}
+body.dark .hb-dots i.on{background:#C99A5E}
+body.dark .catitem{background:#1E1A16;border-color:#2E2822}
+body.dark .catitem:hover{box-shadow:0 8px 22px rgba(0,0,0,.45);border-color:#4A3A24}
+body.dark .catitem .nm{color:#F2E8D8}
+body.dark .catitem .ds{color:#9A8A78}
+body.dark .brand{color:#C99A5E}
+body.dark .htag{color:#9A8A78}
+body.dark .ptitle{color:#F5EDE0}
+body.dark .sect-title{color:#9A8A78}
+body.dark .sect-title::before,body.dark .sect-title::after{background:#3A3128}
+body.dark .mod{background:#1E1A16;border-color:#2E2822}
+body.dark .mod b{color:#F2E8D8}
+body.dark .mod span{color:#9A8A78}
+body.dark .contact{background:linear-gradient(115deg,#251D15,#2B2117);border-color:#4A3A24;color:#E8E0D4}
+body.dark .abtn{color:#9A8A78;border-color:#4A3A24;background:transparent}
+body.dark .foot{color:#6B6055}
+body.dark .gitem:hover{background:#241E18}
+body.dark .trust div{background:#241E18;border-color:#2E2822;color:#E8E0D4}
+body.dark .sec h3{color:#C99A5E}
+body.dark .sec p{color:#DCD2C4}
+body.dark .lead{color:#A8988A}
+body.dark .topline{background:linear-gradient(90deg,transparent,#3A3128 50%,transparent)}
+body.dark .dim .t span{color:#DCD2C4}
+body.dark .warn{background:#2A1E18;color:#E8B080;border-color:#4A3A24}
+body.dark .big,body.dark .line{color:#F5EDE0}
+body.dark .meta,body.dark .intro{color:#9A8A78}
+body.dark .note{color:#9A8A78}
+body.dark .hl{color:#E8C08A}
+body.dark .pull .tag.hi{background:#2E2118;border-color:#5A4028}
+body.dark .pull .tag.lo{background:#1E1A16;border-color:#3A3128;color:#A8988A}
+body.dark details.fold{background:#1E1A16;border-color:#2E2822}
+body.dark details.fold summary{color:#DCD2C4}
+body.dark .foldbody{color:#DCD2C4}
+body.dark .stem{color:#F2E8D8}
+body.dark .prog{background:#2E2822}
+body.dark .qnbtn{background:#1E1A16;border-color:#2E2822;color:#A8988A}
+body.dark .qcell{background:#1E1A16;border-color:#2E2822;color:#9A8A78}
+body.dark .qcell.done{background:#2E2118;border-color:#5A4028;color:#E8C08A}
+body.dark .qcell.cur{background:#3A2A18;border-color:#C99A5E;color:#F2E8D8}
+body.dark .opt{background:#1E1A16;border-color:#2E2822;color:#E8E0D4}
+body.dark .opt.sel{border-color:#C99A5E;background:#2E2118;color:#F2E8D8}
+body.dark .autowrap{color:#9A8A78}
+body.dark .qntip{color:#9A8A78}
+body.dark .btn.skip{color:#6B6055;border-color:#3A3128}
+body.dark .copy button{background:#241E18;border-color:#3A3128;color:#E8E0D4}
+body.dark .copy button:hover{border-color:#C99A5E}
+body.dark .row{border-color:#2E2822}
+body.dark .row b{color:#C99A5E}
+body.dark .step{color:#9A8A78}
+body.dark input{background:#1E1A16;border-color:#2E2822;color:#E8E0D4}
+body.dark .cmp th{color:#9A8A78}
+body.dark .cmp td{border-color:#2E2822;color:#DCD2C4}
+body.dark .cmp .v{color:#E8C08A}
+body.dark .fit{color:#DCD2C4}
+body.dark .fit .ok{color:#9AB88A}
+body.dark .fit .no{color:#E8A080}
+body.dark .faq .q{color:#F2E8D8}
+body.dark .faq .a{color:#DCD2C4}
+body.dark .crumb{color:#9A8A78}
+body.dark .crumb b{color:#C99A5E}
+body.dark .phero h1{color:#F5EDE0}
+body.dark .phero .one{color:#DCD2C4}
+body.dark .phero .one b{color:#E8C08A}
+body.dark .sec p b{color:#E8C08A}
+body.dark .contact b{color:#E8C08A}
 </style>
 <style>
 .row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px dashed #EAE0D3;font-size:15px;color:#3A2E2A}
@@ -75,6 +181,75 @@ h1{font-family:"STKaiti","KaiTi",serif;font-size:38px;font-weight:400;text-align
 .autowrap input{vertical-align:middle;margin-right:6px}
 .btn.skip{margin-top:10px;border-style:dashed;color:#A8988A;font-size:14px;background:transparent}
 .btn.skip.sel{border-color:#8A7B70;color:#5A4A40;border-style:solid}
+.modnav{display:flex;gap:10px;margin:18px 0 6px}
+.mod{flex:1;padding:16px 6px;border:1px solid #E3DACD;border-radius:14px;background:#FFFDF9;text-align:center;cursor:pointer}
+.mod b{display:block;font-size:15px;color:#3A2E2A;margin-bottom:4px}
+.mod span{display:block;font-size:12px;color:#A8988A}
+.gwrap{max-height:520px;overflow:auto;margin-top:10px}
+.gitem{display:flex;justify-content:space-between;align-items:center;padding:12px 8px;border-bottom:1px dashed #EAE0D3;cursor:pointer}
+.gitem b{font-size:16px;color:#3A2E2A}
+.gitem span{font-size:12px;color:#A8988A}
+.brand{text-align:center;font-size:12px;letter-spacing:.35em;color:#A8988A;margin:26px 0 6px}
+.ptitle{font-family:"STKaiti","KaiTi",serif;font-size:40px;text-align:center;margin:4px 0;color:#3A2E2A}
+.psub{text-align:center;color:#8A7B70;font-size:15px;margin:6px 0 20px}
+.hero{background:#FFFDF9;border:1px solid #EAE0D3;border-radius:20px;padding:22px 16px;margin-bottom:8px}
+.sect-title{font-size:12px;color:#A8988A;letter-spacing:.2em;margin:24px 0 10px;text-align:center}
+.svclist{display:grid;gap:10px}
+.svc{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border:1px solid #EAE0D3;border-radius:14px;background:#FFFDF9;cursor:pointer;text-align:left}
+.svc .nm{font-size:15px;color:#3A2E2A;font-weight:600}
+.svc .ds{font-size:12px;color:#A8988A;margin-top:3px}
+.svc .pr{font-size:16px;color:#A8442E;font-weight:700;white-space:nowrap}
+.svc .rt{display:flex;align-items:center;gap:8px}
+.tg{font-size:10px;background:#FFF3E4;color:#A8442E;padding:2px 6px;border-radius:6px;white-space:nowrap}
+.abtn{display:block;width:100%;text-align:center;padding:13px;margin-top:10px;border:1px dashed #D9B99B;border-radius:12px;background:transparent;color:#8A7B70;font-size:14px;cursor:pointer}
+.htag{text-align:center;color:#8A7B70;font-size:13px;margin:4px 0 18px}
+.hero{background:linear-gradient(135deg,#FFF9F0,#FFF3E4);border:1px solid #E9C9A0;border-radius:20px;padding:20px 18px;margin-bottom:6px;text-align:center}
+.hero .hd{font-size:13px;color:#A8442E;letter-spacing:.2em}
+.hero .hs{font-family:"STKaiti","KaiTi",serif;font-size:26px;color:#3A2E2A;margin:8px 0 4px}
+.hero .hp{font-size:13px;color:#8A7B70;margin-bottom:12px}
+.catlist{display:grid;gap:8px}
+.catitem{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border:1px solid #EAE0D3;border-radius:14px;background:#FFFDF9;cursor:pointer;text-align:left}
+.catitem .nm{font-size:15px;color:#3A2E2A;font-weight:600}
+.catitem .ds{font-size:12px;color:#A8988A;margin-top:3px}
+.catitem .pr{font-size:13px;color:#A8442E;font-weight:700;white-space:nowrap}
+.crumb{font-size:12px;color:#A8988A;margin:14px 0 4px}
+.herobar{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(135deg,#FFF9F0,#FFF3E4);border:1px solid #E9C9A0;border-radius:14px;padding:14px 16px 22px;margin-bottom:6px;min-height:96px}
+.hb-left{flex:1;min-width:0;text-align:left}
+.hb-tag{display:inline-block;font-size:10px;color:#fff;background:#A8442E;padding:1px 7px;border-radius:5px;letter-spacing:.1em}
+.hb-title{font-family:"STKaiti","KaiTi",serif;font-size:21px;color:#3A2E2A;margin:5px 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hb-sub{font-size:12px;color:#8A7B70;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hb-btn{flex-shrink:0;background:#B5651D;color:#fff;border:none;border-radius:20px;padding:9px 18px;font-size:14px;cursor:pointer;white-space:nowrap}
+.hb-dots{position:absolute;bottom:7px;left:0;right:0;display:flex;justify-content:center;gap:5px}
+.hb-dots i{width:5px;height:5px;border-radius:50%;background:#E3DACD;display:block;cursor:pointer}
+.hb-dots i.on{background:#B5651D;width:14px;border-radius:3px}
+.phero{margin:10px 0 4px}
+.phero h1{font-family:"STKaiti","KaiTi",serif;font-size:32px;text-align:center;color:#3A2E2A;margin:2px 0 6px}
+.phero .one{text-align:center;color:#5A4A40;font-size:15px;line-height:1.7;margin-bottom:4px}
+.trust{display:flex;gap:8px;margin:14px 0}
+.trust div{flex:1;background:#FFF9F0;border:1px solid #EAE0D3;border-radius:12px;padding:10px 8px;text-align:center;font-size:12px;color:#5A4A40;line-height:1.5}
+.trust b{display:block;font-size:16px;color:#B5651D;margin-bottom:2px}
+.cmp{width:100%;border-collapse:collapse;font-size:13px;margin:6px 0}
+.cmp th,.cmp td{padding:8px 6px;border-bottom:1px dashed #EAE0D3;text-align:left;vertical-align:top}
+.cmp th{color:#8A7B70;font-weight:400;font-size:12px}
+.cmp .v{color:#A8442E;font-weight:600}
+.fit{font-size:13px;line-height:1.8;color:#5A4A40}
+.fit .ok{color:#5A7A4A}
+.fit .no{color:#A8442E}
+.faq{margin-top:4px}
+.faq .q{font-size:14px;color:#3A2E2A;margin-top:12px;font-weight:600}
+.faq .a{font-size:13px;color:#5A4A40;line-height:1.75;margin-top:3px}
+.dots{display:flex;justify-content:center;gap:6px;margin-top:12px}
+.contact{font-size:13px;color:#5A4A40;margin-top:14px;padding:14px 16px;background:#FFF9F0;border:1px solid #EAE0D3;border-radius:12px;line-height:1.8;text-align:left}
+.contact .c-row{margin:2px 0}
+.contact .c-row b{color:#B5651D;font-weight:600}
+.contact .wx{font-size:15px;letter-spacing:.02em}
+.contact .c-tip{font-size:12px;color:#A8988A;margin-top:6px}
+.dots i{width:6px;height:6px;border-radius:50%;background:#E3DACD;cursor:pointer;display:block;transition:width .25s}
+.dots i.on{background:#B5651D;width:16px;border-radius:3px}
+.hero .hd{font-size:12px;color:#A8442E;letter-spacing:.25em;min-height:16px}
+.hero .hs{font-family:"STKaiti","KaiTi",serif;font-size:26px;color:#3A2E2A;margin:8px 0 4px;min-height:34px}
+.hero .hp{font-size:13px;color:#8A7B70;margin-bottom:12px;min-height:18px}
+.crumb b{color:#B5651D;font-weight:600}
 .hl{font-weight:700;color:#8A5A2A;font-size:17px;line-height:1.8}
 .pull{display:flex;align-items:center;gap:10px;margin:12px 0 14px;flex-wrap:wrap}
 .tag{flex:1;min-width:120px;text-align:center;padding:12px 10px;border-radius:12px;font-size:14px;font-weight:600}
@@ -88,7 +263,8 @@ details.fold summary::before{content:"▸ ";color:#B5651D}
 details.fold[open] summary::before{content:"▾ "}
 .foldbody{padding:0 14px 14px;font-size:14px;color:#5A4A40;line-height:1.85}
 </style></head>
-<body><div class="wrap" id="app"></div>
+<body class="dark">
+<button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="切换主题">🌙</button><div class="wrap" id="app"></div>
 <script>
 const Q = [
 {n:1,dim:"行动力",stem:"半夜十二点，你已经躺下，突然冒出一个点子，明天还要早起——",opts:["想想就过去了，第二天早上已经忘干净","躺着把点子过一遍，顺手记下两三行","跟自己说明天再说，结果越想越精神","摸黑摸到手机记下，想好明天第一步"],scores:[0,2,1,3]},
@@ -449,6 +625,214 @@ function setG(g){
     if (el) el.className = 'btn' + (x[0] === g ? ' sel' : '');
   });
 }
+
+function showGallery(){
+  stopHero();
+  var h = '<div class="eyebrow">ATLAS · 古人图鉴</div><h1 style="font-size:30px">古人图鉴</h1>'
+   + '<div class="lead">' + PEOPLE.length + ' 位历史人物 · 点开看 TA 的底色</div>'
+   + '<div class="card"><input id="gs" placeholder="搜名字 / 朝代" oninput="filterGallery()" style="width:100%;padding:12px;border:1px solid #E3DACD;border-radius:12px;font-size:15px;box-sizing:border-box;background:#FFFDF9">'
+   + '<div class="gwrap" id="glist">';
+  PEOPLE.forEach(function(p, i){
+    h += '<div class="gitem" data-n="' + p.name + '" data-e="' + p.era + '" onclick="showPerson(' + i + ')">'
+      + '<b>' + p.name + '</b><span>' + p.era + ' · ' + p.role + '</span></div>';
+  });
+  h += '</div></div><button class="btn" onclick="portal()">返回主界面</button>';
+  app.innerHTML = h;
+  window.scrollTo(0, 0);
+}
+function filterGallery(){
+  var el = document.getElementById('gs');
+  var q = el ? (el.value || '').trim() : '';
+  var items = document.querySelectorAll('.gitem');
+  for (var k = 0; k < items.length; k++) {
+    var t = (items[k].getAttribute('data-n') || '') + (items[k].getAttribute('data-e') || '');
+    items[k].style.display = (!q || t.indexOf(q) >= 0) ? '' : 'none';
+  }
+}
+function showPerson(idx){
+  var p = PEOPLE[idx];
+  var h = '<div class="eyebrow">ATLAS · 古人档案</div>'
+   + '<div class="big" style="font-size:56px">' + p.name + '</div>'
+   + '<div class="meta">' + p.era + ' · ' + p.role + '</div>'
+   + '<div class="line">「' + p.quote + '」</div>'
+   + '<div class="card">';
+  DIMS.forEach(function(d, i){
+    var v = p.vec[i];
+    var pct = Math.round(v / 22 * 100);
+    h += '<div class="dim"><div class="t"><span>' + d + '</span><span>' + v + '</span></div>'
+      + '<div class="trk"><div class="fil" style="width:' + pct + '%;background:#B5651D"></div></div></div>';
+  });
+  h += '</div>';
+  h += '<button class="btn" style="background:#B5651D;color:#fff;border-color:#B5651D;text-align:center" onclick="begin(GENDER,\'quick\')">测测你像不像 TA（免费 16 题）</button>';
+  h += '<button class="btn" onclick="showGallery()">返回图鉴</button>';
+  h += '<button class="btn" onclick="portal()">返回主界面</button>';
+  app.innerHTML = h;
+  window.scrollTo(0, 0);
+}
+function showDaily(){
+  stopHero();
+  var p = PEOPLE[Math.floor(Math.random() * PEOPLE.length)];
+  var h = '<div class="eyebrow">ATLAS · 每日一言</div>'
+   + '<h1 style="font-size:30px">今天，' + p.name + ' 对你说</h1>'
+   + '<div class="card"><div class="line" style="font-size:22px;line-height:1.9">「' + p.quote + '」</div>'
+   + '<div class="meta" style="margin-top:14px">' + p.name + ' · ' + p.era + ' · ' + p.role + '</div></div>'
+   + '<div class="lead">想知道你和 TA 像不像？</div>'
+   + '<button class="btn" style="background:#B5651D;color:#fff;border-color:#B5651D;text-align:center" onclick="begin(GENDER,\'quick\')">测测你像谁（免费 16 题）</button>'
+   + '<button class="btn" onclick="showDaily()">换一句</button>'
+   + '<button class="btn" onclick="portal()">返回主界面</button>';
+  app.innerHTML = h;
+  window.scrollTo(0, 0);
+}
+
+
+
+var HERO_SLIDES = [
+  {tag:'主 推', t:'你像哪位古人', d:'64 道情境题 · 找出你最像的那一位 · 免费先测', btn:'进入 →', go:'test'},
+  {tag:'', t:'古人图鉴', d:'181 位历史人物 · 点开看 TA 的底色', btn:'逛逛 →', go:'gallery'},
+  {tag:'', t:'每日一言', d:'每天一位古人，对你说一句话', btn:'看看 →', go:'daily'},
+  {tag:'', t:'人生方向梳理', d:'一句话告诉你：这辈子整体顺不顺 · 1 元', btn:'了解 →', go:'svc0'},
+  {tag:'', t:'深度人生梳理', d:'完整人生说明书：适合干什么、什么时候该稳 · 39.9 元', btn:'了解 →', go:'svc2'}
+];
+var heroIdx = 0, heroTimer = null;
+
+function renderHero(){
+  var el = document.getElementById('hero');
+  if (!el) return;
+  var s = HERO_SLIDES[heroIdx];
+  el.className = 'herobar';
+  el.innerHTML = '<div class="hb-left">'
+    + (s.tag ? '<span class="hb-tag">' + s.tag + '</span>' : '')
+    + '<div class="hb-title">' + s.t + '</div>'
+    + '<div class="hb-sub">' + s.d + '</div></div>'
+    + '<button class="hb-btn" onclick="productPage(\'' + s.go + '\')">' + s.btn + '</button>'
+    + '<div class="hb-dots">' + HERO_SLIDES.map(function(_, i){
+      return '<i class="' + (i === heroIdx ? 'on' : '') + '" onclick="heroGo(' + i + ')"></i>';
+    }).join('') + '</div>';
+}
+function heroGo(i){ heroIdx = i; renderHero(); }
+function heroStart(){
+  if (heroTimer) { clearInterval(heroTimer); heroTimer = null; }
+  heroTimer = setInterval(function(){
+    heroIdx = (heroIdx + 1) % HERO_SLIDES.length;
+    renderHero();
+  }, 3500);
+}
+
+function portal(){
+  var h = '<div class="topline"></div><div class="brand">A T L A S · 古 人 智 慧</div>'
+   + '<div class="htag">性格 · 古人 · 文化参考</div>';
+
+  // 主推轮播（横条）
+  h += '<div class="herobar" id="hero"></div>';
+
+  // 分类目录
+  CATALOG.forEach(function(grp){
+    h += '<div class="sect-title">' + grp.cat + '</div><div class="catlist">';
+    grp.items.forEach(function(it){
+      h += '<div class="catitem" onclick="productPage(\'' + it.id + '\')">'
+        + '<div><div class="nm">' + it.n + (it.st ? ' <span class="tg">' + it.st + '</span>' : '') + '</div>'
+        + '<div class="ds">' + it.d + '</div></div>'
+        + '<div class="pr">' + it.price + '</div></div>';
+    });
+    h += '</div>';
+  });
+
+  h += '<button class="abtn" onclick="showAbout()">关于与原理 · 文化依据与算法说明</button>';
+  h += '<div class="contact">联系方式：微信 <b class="wx">xiaoyun7-3</b></div>';
+  h += '<div class="foot">传统文化参考 · AI 整理 · 仅供自我了解，不构成决策依据</div>';
+  app.innerHTML = h;
+  renderHero();
+  heroStart();
+  window.scrollTo(0, 0);
+}
+function stopHero(){ if (heroTimer) { clearInterval(heroTimer); heroTimer = null; } }
+function productPage(id){
+  stopHero();
+  if (id === 'gallery') { showGallery(); return; }
+  if (id === 'daily') { showDaily(); return; }
+  if (id === 'history') { showHistoryList(); return; }
+  if (id.indexOf('svc') === 0) { showService(parseInt(id.slice(3), 10)); return; }
+  // 性格测试产品页（导购式）
+  var d = loadDraft();
+  var resume = '';
+  if (d && d.p && d.i < d.p.length) {
+    resume = '<button class="btn" style="border-color:#A8442E;color:#A8442E" onclick="resumeDraft()">继续上次答题（第 ' + (d.i + 1) + ' / ' + d.p.length + ' 题）</button>';
+  }
+  var h = '<div class="crumb">主界面 &gt; 性格与文化 &gt; <b>你像哪位古人</b></div>'
+   + '<div class="phero"><h1>你像哪位古人</h1>'
+   + '<div class="one">给想认识自己的人，一套 64 道情境题<br>测出你最像哪位历史人物，以及为什么</div></div>'
+   + '<div class="trust">'
+   + '<div><b>181</b>位古人<br>真实性格向量</div>'
+   + '<div><b>64</b>道情境题<br>不是随口问</div>'
+   + '<div><b>8</b>维打分<br>算出来不是抽出来的</div>'
+   + '</div>'
+   + '<div class="card"><div class="sec"><h3>你会得到什么</h3>'
+   + '<table class="cmp"><tr><th></th><th>简单版 16 题</th><th>深度版 64 题</th></tr>'
+   + '<tr><td>你的古人</td><td>✓</td><td>✓</td></tr>'
+   + '<tr><td>三块性格维度</td><td>✓</td><td>✓</td></tr>'
+   + '<tr><td>一句扎心话</td><td>✓</td><td>✓</td></tr>'
+   + '<tr><td>完整八维图</td><td>—</td><td class="v">✓</td></tr>'
+   + '<tr><td>你身上的拉扯 + 解药</td><td>—</td><td class="v">✓</td></tr>'
+   + '<tr><td>TA 对你说的三句话</td><td>—</td><td class="v">✓</td></tr>'
+   + '<tr><td>保存结果卡 / 分享</td><td>✓</td><td>✓</td></tr>'
+   + '<tr><td>用时</td><td>约 3 分钟</td><td>约 12 分钟</td></tr></table></div>'
+   + '<div class="sec"><h3>适合谁 / 不适合谁</h3><div class="fit">'
+   + '<span class="ok">✓ 适合</span>：想认识自己、想发朋友圈、喜欢古人和历史的人<br>'
+   + '<span class="no">✗ 不适合</span>：想要预测类服务、想要心理诊断、想要"百分百准"保证的人'
+   + '</div></div>'
+   + '<div class="sec"><h3>常见问题</h3><div class="faq">'
+   + '<div class="q">测几次结果一样吗？</div><div class="a">64 题深度版稳定；16 题简单版用的是提问方式，个别题会略有不同。</div>'
+   + '<div class="q">结果能保存吗？</div><div class="a">能。测完可保存长图/方图，历史记录存在你自己手机里，下次打开还能看。</div>'
+   + '<div class="q">准吗？</div><div class="a">这是性格类比，不是命运判断。它说的"拉扯"和"解药"是让你对照自己，不是替你决定。</div>'
+   + '<div class="q">答到一半退出怎么办？</div><div class="a">没事，回来点「继续上次答题」能接着答。</div>'
+   + '</div></div></div>'
+   + '<div class="step">人物方向（偏多，不排除另一方）</div>'
+   + '<button class="btn" id="g-f" onclick="setG(\'女\')">女性人物为主</button>'
+   + '<button class="btn" id="g-m" onclick="setG(\'男\')">男性人物为主</button>'
+   + '<button class="btn sel" id="g-a" onclick="setG(\'all\')">不限</button>'
+   + resume
+   + '<button class="btn" style="background:#B5651D;color:#fff;border-color:#B5651D;text-align:center" onclick="begin(GENDER,\'quick\')">免费 16 题 · 先测</button>'
+   + '<button class="btn" style="border-color:#3A2E2A;text-align:center" onclick="gate()">深度版 64 题 · 1.88 元</button>'
+   + '<button class="abtn" onclick="portal()">返回主界面</button>';
+  app.innerHTML = h;
+  window.scrollTo(0, 0);
+}
+
+function showService(idx){
+  var s = SERVICES[idx];
+  var faqH = '';
+  (s.faq || []).forEach(function(f){
+    faqH += '<div class="q">' + f[0] + '</div><div class="a">' + f[1] + '</div>';
+  });
+  var h = '<div class="crumb">主界面 &gt; 个人发展 &gt; <b>' + s.n + '</b></div>'
+   + '<div class="phero"><h1>' + s.n + '</h1>'
+   + '<div class="one">' + s.d + '</div></div>'
+   + '<div class="trust">'
+   + '<div><b>' + s.p + (s.p === '面议' ? '' : '元') + '</b>价格</div>'
+   + '<div><b>' + s.dur + '</b>出结果</div>'
+   + '<div><b>微信</b>发你<br>文字版</div>'
+   + '</div>'
+   + '<div class="card"><div class="sec"><h3>你会收到什么</h3><p>' + s.out + '</p></div>'
+   + '<div class="sec"><h3>适合谁 / 不适合谁</h3><div class="fit">' + s.fit + '</div></div>'
+   + '<div class="sec"><h3>怎么弄</h3><p>加微信 <b>xiaoyun7-3</b>，把出生时间发我，说清楚你想问什么，我算好发你（文字版，可直接保存）。</p></div>'
+   + '<div class="sec"><h3>常见问题</h3><div class="faq">' + faqH + '</div></div></div>'
+   + '<button class="btn" onclick="portal()">返回主界面</button>';
+  app.innerHTML = h;
+  window.scrollTo(0, 0);
+}
+
+function showAbout(){
+  stopHero();
+  var h = '<div class="eyebrow">ATLAS · 关于</div><h1 style="font-size:32px">关于与原理</h1>'
+   + '<div class="card"><div class="sec"><h3>我们是什么</h3><p>ATLAS · 古人智慧，是一个结合传统人物志与人生规律、用 AI 做整理分析的参考工具，不是预测服务。</p></div>'
+   + '<div class="sec"><h3>文化依据</h3><p>古人部分取材于历代人物传记与语录；个人发展部分参照传统人生规律与性格理论。我们只做文化与性格类比，不做命运判断。</p></div>'
+   + '<div class="sec"><h3>怎么算的</h3><p>性格测试：64 道情境题 → 8 维打分 → 与 181 位古人向量匹配 → 取最接近者，不随机分配。个人发展梳理：按出生时间数据 → 参照传统规律分析 → AI 整理成文。</p></div>'
+   + '<div class="sec"><h3>免责声明</h3><p>所有内容仅供自我了解与文化参考，不构成决策依据，不保证准确性。请理性看待。</p></div></div>'
+   + '<button class="btn" onclick="portal()">返回主界面</button>';
+  app.innerHTML = h;
+  window.scrollTo(0, 0);
+}
+
 function start(){
   var d = loadDraft();
   var resume = '';
@@ -477,7 +861,12 @@ function start(){
    + '</div>'
    + resume
    + '<button class="btn" style="background:#B5651D;color:#fff;border-color:#B5651D;text-align:center" onclick="begin(GENDER,\'quick\')">快速版 · 16 题（约 3 分钟）</button>'
-   + '<button class="btn" style="border-color:#3A2E2A;text-align:center" onclick="gate()">深度版 · 64 题（约 12 分钟 · 需解锁）</button>'
+   + '<button class="btn" style="border-color:#3A2E2A;text-align:center" onclick="gate()">深度版 · 64 题（约 12 分钟 · 1.88 元）</button>'
+   + '<div class="modnav">'
+   + '<button class="mod" onclick="showGallery()"><b>古人图鉴</b><span>181 位人物</span></button>'
+   + '<button class="mod" onclick="showDaily()"><b>每日一言</b><span>今天古人对你说</span></button>'
+   + '<button class="mod" onclick="showHistoryList()"><b>我的档案</b><span>测过的结果</span></button>'
+   + '</div>'
    + '<div class="foot">快速版免费 · 深度版完整档案<br>只做性格类比，不做命运判断 · AI 整理</div>';
 }
 function begin(g, mode){ GENDER = g || 'all'; MODE = mode || 'deep'; T0 = Date.now(); clearDraft(); PAPER = pickPaper(MODE === 'quick' ? 2 : 8); A = new Array(PAPER.length).fill(null); i = 0; render(); }
@@ -497,7 +886,8 @@ function render(){
   h += '<div class="card"><div class="stem">'+q.stem+'</div><div id="o"></div>'
      + '<div class="nav"><button onclick="back()">'+(i===0?'返回上一步':'上一题')+'</button>'
      + '<button class="nx" onclick="next()">下一题</button></div>'
-     + '<label class="autowrap"><input type="checkbox" id="autocb" ' + (AUTONEXT ? 'checked' : '') + ' onchange="setAuto(this.checked)"> 选完自动进入下一题</label></div>';
+     + '<label class="autowrap"><input type="checkbox" id="autocb" ' + (AUTONEXT ? 'checked' : '') + ' onchange="setAuto(this.checked)"> 选完自动进入下一题</label></div>'
+     + '<button class="abtn" onclick="portal()">返回主站</button>';
   app.innerHTML = h;
   const box = document.getElementById('o');
   q.opts.forEach(function(o,k){
@@ -560,6 +950,68 @@ function quality(){
 var MODE = 'deep';
 var AUTONEXT = true;
 try { if (localStorage.getItem('atlas_auto') === '0') AUTONEXT = false; } catch (e) {}
+var CATALOG = [
+  {cat:'性格与文化', items:[
+    {id:'test', n:'你像哪位古人', d:'64 道情境题，找出你最像的那一位', price:'免费 / 1.88 元', st:''},
+    {id:'gallery', n:'古人图鉴', d:'181 位历史人物 · 点开看 TA 的底色', price:'免费', st:''},
+    {id:'daily', n:'每日一言', d:'每天一位古人，对你说一句话', price:'免费', st:''}
+  ]},
+  {cat:'个人发展', items:[
+    {id:'svc0', n:'人生方向梳理', d:'一句话告诉你：这辈子整体顺不顺、哪几年要留神', price:'1 元', st:''},
+    {id:'svc1', n:'性格特质分析', d:'把你的性格说透：急脾气还是慢性格、遇事第一反应是什么', price:'3.99 元', st:''},
+    {id:'svc2', n:'深度人生梳理', d:'完整人生说明书：适合干什么、什么时候该稳什么时候该冲', price:'39.9 元', st:''},
+    {id:'svc3', n:'专项咨询', d:'单独深挖一个问题：比如为什么总在感情上栽跟头', price:'19.9 元', st:''},
+    {id:'svc4', n:'具体事项咨询', d:'拿不定主意的事帮你看时机：换工作 / 要不要谈 / 合作接不接', price:'面议', st:'咨询'},
+    {id:'svc5', n:'关系合看', d:'两个人合不合、怎么相处少吵架', price:'待定', st:'即将上线'}
+  ]},
+  {cat:'我的', items:[
+    {id:'history', n:'我的档案', d:'测过的结果都在这里', price:'免费', st:''}
+  ]}
+];
+var SERVICES = [
+  {n:'人生方向梳理', p:'1', d:'一句话告诉你：这辈子整体顺不顺、哪几年要留神', tg:'入门',
+   who:'想花 1 块钱先试试水的人',
+   out:'微信发你一段话：一句结论 + 三句解释，约 100 字',
+   dur:'当天发你', fit:'适合先试试；不适合想马上知道"哪天发财"的人',
+   faq:[['就一句话吗？','是，一句话说结论，三句话解释为什么'],['多久发我？','当天。加微信后把你出生时间发我就行']]},
+  {n:'性格特质分析', p:'3.99', d:'把你的性格说透：你是急脾气还是慢性格、遇事第一反应是什么', tg:'',
+   who:'想搞懂自己性格的人',
+   out:'约 1000 字：你的性格特点 + 容易在哪类事上吃亏 + 怎么改',
+   dur:'24 小时内', fit:'适合想认真搞懂自己的人；不适合只想要一句结论的',
+   faq:[['和网上免费的性格测试有啥区别？','免费测试只给你贴标签，我这份会结合你的出生时间说你为什么这样、什么时候会犯'],['多久发我？','24 小时内，微信发文字']]},
+  {n:'深度人生梳理', p:'39.9', d:'一份完整的人生说明书：适合干什么、什么时候该稳什么时候该冲', tg:'完整',
+   who:'认真想规划人生方向的人',
+   out:'约 3000 字：性格 + 适合的方向 + 关键年份提醒 + 具体建议',
+   dur:'48 小时内', fit:'适合认真做规划的人；不适合临时起意随便问问',
+   faq:[['和 3.99 的区别？','3.99 聊性格，39.9 连人生方向、关键年份、怎么选一起说'],['能保证准吗？','不能保证。我给的是参考，帮你少走弯路，不替你做决定']]},
+  {n:'专项咨询', p:'19.9', d:'你已经大概了解自己了，想单独深挖一个问题：比如为什么总在感情上栽跟头', tg:'',
+   who:'有具体困惑、想深挖一个点的人',
+   out:'针对你指定的一件事，深入聊 + 给建议（文字）',
+   dur:'24 小时内', fit:'适合已经有基础认知的人；不适合第一次就买',
+   faq:[['能指定问什么吗？','可以，下单时说清楚你想聊的那个点'],['多久发我？','24 小时内']]},
+  {n:'具体事项咨询', p:'面议', d:'有件具体的事拿不定主意（换工作 / 要不要谈 / 这个合作接不接），帮你看时机', tg:'咨询',
+   who:'正卡在某个决定上的人',
+   out:'针对这件事的参考意见 + 该注意什么（文字）',
+   dur:'当天', fit:'适合具体、眼前的事；不适合看一辈子的大方向',
+   faq:[['适合问什么？','具体的事，比如"这个 offer 要不要接""这个人要不要继续"'],['多少钱？','面议，先聊清楚问题再定']]},
+  {n:'关系合看', p:'待定', d:'两个人合不合、怎么相处少吵架、有没有必要继续', tg:'即将上线',
+   who:'恋爱、婚姻、合伙想看清关系的人',
+   out:'两人的性格匹配度 + 相处建议（文字）',
+   dur:'24 小时内', fit:'适合想看清关系的人；不适合想"拆散谁"的人',
+   faq:[['要几个人的信息？','两个人各自的出生时间'],['多少钱？','待定，上线后标价']]}
+];
+function applyTheme(t){
+  if (t === 'dark') { document.body.classList.add('dark'); } else { document.body.classList.remove('dark'); }
+  var b = document.getElementById('themeBtn');
+  if (b) b.textContent = (t === 'dark') ? '☀️' : '🌙';
+  try { localStorage.setItem('atlas_theme', t); } catch(e) {}
+}
+function toggleTheme(){
+  var cur = document.body.classList.contains('dark') ? 'dark' : 'light';
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
+}
+try { applyTheme(localStorage.getItem('atlas_theme') || 'dark'); } catch(e) {}
+
 var GATE_H = 'kzk4r';  // 占位：hash('ATLAS88'+SALT) 待重算
 
 function hash(s){
@@ -600,6 +1052,9 @@ function quickResult(){
   var tag = (TALK[p.arch] && TALK[p.arch][0]) || INTRO[p.arch] || '';
   var intro = INTRO[p.arch] || '';
   var hook = PULL_LO[low] || '';
+  var sk = 0;
+  for (var kk = 0; kk < A.length; kk++) { if (A[kk] === -1) sk++; }
+  var skipTip = (sk > 0) ? '<div class="note">你有 ' + sk + ' 题选了「都不太像」，结果基于其余题</div>' : '';
   var rows = top3.map(function(d, k){
     return '<div class="row"><span>' + d + '</span><b>第 ' + (k + 1) + ' 位 · 靠前</b></div>';
   }).join('');
@@ -610,7 +1065,8 @@ function quickResult(){
    + '<p style="font-size:17px;line-height:1.9;margin:6px 0">「' + tag + '」</p>'
    + '<p style="color:#8A7B70;font-size:13px;margin:0">' + intro + '</p></div>'
    + '<div class="card"><div class="step">16 题里最明显的三块</div>' + rows
-   + '<div style="margin-top:10px;color:#A8442E;font-size:14px;line-height:1.7">' + hook + '</div></div>'
+   + '<div style="margin-top:10px;color:#A8442E;font-size:14px;line-height:1.7">' + hook + '</div>'
+   + skipTip + '</div>'
    + '<div class="card" style="background:#FBF7F0"><div class="step">想要完整档案？</div>'
    + '<p style="font-size:14px;line-height:1.85;color:#5A4A40;margin:6px 0">深度版 64 题会给你：八维完整图 · 你和 TA 的共同底色 · 现实中的你 · 你身上的拉扯 · 最容易卡住的地方 · 你的解药 · 你选的那几道题 · TA 对你说的三句话。</p>'
    + '<button class="btn" style="background:#B5651D;color:#fff;border-color:#B5651D;text-align:center" onclick="gate()">解锁深度版 · 64 题</button></div>'
@@ -666,6 +1122,7 @@ function showHistoryEntry(idx){
   window.scrollTo(0, 0);
 }
 function showHistoryList(){
+  stopHero();
   var arr = loadHistoryArr();
   if (!arr.length) { alert('还没有历史记录'); return; }
   var h = '<div class="eyebrow">ATLAS · 历史记录</div><h1 style="font-size:30px">最近 ' + arr.length + ' 次结果</h1>';
@@ -674,7 +1131,7 @@ function showHistoryList(){
     var ts = (d.getMonth()+1) + '月' + d.getDate() + '日 ' + ('0'+d.getHours()).slice(-2) + ':' + ('0'+d.getMinutes()).slice(-2);
     h += '<button class="btn" onclick="showHistoryEntry(' + i + ')">' + e.name + ' · ' + (e.mode === 'quick' ? '快速版' : '完整版') + ' · ' + ts + '</button>';
   });
-  h += '<button class="btn" onclick="start()">返回首页</button>';
+  h += '<button class="btn" onclick="portal()">返回主界面</button>';
   app.innerHTML = h;
 }
 
@@ -1086,7 +1543,7 @@ function copyIt(){
       return;
     } catch (e) { console.error('link decode fail', e); }
   }
-  start();
+  portal();
   if (/[?&]preview=/.test(location.search)) {
     try { result(); } catch (e) { console.error('preview fail', e); }
   }
